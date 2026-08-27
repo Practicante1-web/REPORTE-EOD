@@ -8,6 +8,24 @@ from generar_reporte import construir_reporte, HIPPIES
 st.set_page_config(page_title="Reporte EOD", page_icon="📍", layout="wide")
 st.title("📍 Generador de Reporte EOD")
 st.caption("Llena los datos de la tienda (los lees del Dashboard de ArcGIS), sube mapas/fotos y descarga el Word.")
+st.subheader("📂 Cargar datos EOD")
+
+archivo_csv = st.file_uploader(
+    "Sube el archivo CSV descargado de ArcGIS",
+    type=["csv"]
+)
+
+if archivo_csv is not None:
+    import pandas as pd
+
+    df = pd.read_csv(archivo_csv)
+
+    st.success(f"Archivo cargado correctamente ✅ — {len(df)} registros")
+
+    st.write("Columnas encontradas:")
+    st.write(df.columns.tolist())
+
+    st.dataframe(df.head(10))
 PLANTILLA = os.path.join(os.path.dirname(__file__), "plantilla_hippies.docx")
 H = HIPPIES
 
